@@ -79,6 +79,10 @@ Mục **Bộ 5 tình huống** cho chọn đủ hai ca chatbot, hai ca agent và
 Đây là UI địa phương để trình chiếu, không phải bản triển khai công khai.
 Ảnh chụp một lượt UI gọi API thật và đi qua hai tools: [docs/ui_live.png](docs/ui_live.png).
 
+**Pitching:** [deck 6 slide](presentation/Day03_K4B_Kingpro_Pitch.pptx) ·
+[PDF dự phòng](presentation/Day03_K4B_Kingpro_Pitch.pdf) ·
+[lời nói 3 phút, thao tác demo và Q&A](docs/PITCH_K4B.md).
+
 ```mermaid
 flowchart LR
     U[Câu hỏi] --> C[Chatbot: 1 LLM call]
