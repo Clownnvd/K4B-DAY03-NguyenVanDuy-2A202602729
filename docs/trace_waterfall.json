@@ -1,29 +1,308 @@
 [
   {
+    "test_id": "TC01",
+    "query": "Đây là bản demo gì và hỗ trợ những việc nào?",
     "step": 1,
-    "query": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
     "action_type": "FINAL_ANSWER",
-    "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool.",
-    "output": "[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-    "latency_ms": 2845.93
+    "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
+    "output": "Bản demo này là hệ thống hỗ trợ học vụ bằng dữ liệu giả lập của VinUni. Nó giúp trả lời các câu hỏi đơn giản về học vụ, tra cứu thông tin sinh viên như GPA, cố vấn học tập dựa trên mã sinh viên, và tạo bản nháp lịch hẹn với cố vấn học tập theo yêu cầu. Tuy nhiên, dữ liệu chỉ là giả lập, không đại diện cho VinUni thật.",
+    "llm_latency_ms": 2609.81,
+    "latency_ms": 2609.81,
+    "response_id": "chatcmpl-ENXB9XXAgzjfbmMy58bopkLv5xZSQ",
+    "usage": {
+      "completion_tokens": 89,
+      "prompt_tokens": 648,
+      "total_tokens": 737,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
   },
   {
+    "test_id": "TC02",
+    "query": "Để bạn tra cứu hồ sơ học vụ DEMO, tôi cần cung cấp thông tin gì?",
     "step": 1,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
+    "output": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu hồ sơ học vụ DEMO cho bạn.",
+    "llm_latency_ms": 1184.35,
+    "latency_ms": 1184.35,
+    "response_id": "chatcmpl-ENXBCDvAJv2aeB8Ce1OoR9gMR0ZSt",
+    "usage": {
+      "completion_tokens": 26,
+      "prompt_tokens": 655,
+      "total_tokens": 681,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC03",
+    "query": "Trong dữ liệu DEMO, tra cứu SV2026001: GPA và cố vấn của bạn ấy là ai?",
+    "step": 1,
     "action_type": "TOOL_EXECUTION",
+    "thought": "Cần tra cứu hồ sơ DEMO trước khi trả dữ liệu cá nhân hoặc tạo lịch.",
+    "thought_source": "public_summary_of_observed_tool_choice",
     "tool_name": "academic_query",
     "arguments": {
       "student_id": "SV2026001"
     },
-    "observation": {},
-    "latency_ms": 799.12
+    "observation": {
+      "status": "SUCCESS",
+      "student_id": "SV2026001",
+      "data": {
+        "full_name": "Nguyễn Văn An",
+        "class": "AI-K4",
+        "gpa": 3.85,
+        "email": "an.nv@vinuni.edu.vn",
+        "status": "Đang học",
+        "advisor": "PGS.TS Nguyễn Văn A"
+      }
+    },
+    "jsonrpc": "2.0",
+    "llm_latency_ms": 936.05,
+    "tool_latency_ms": 0.04,
+    "latency_ms": 936.09,
+    "response_id": "chatcmpl-ENXBFlDD7jyYYGGNkNIwCKjzMmqPe",
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 658,
+      "total_tokens": 677,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
   },
   {
+    "test_id": "TC03",
+    "query": "Trong dữ liệu DEMO, tra cứu SV2026001: GPA và cố vấn của bạn ấy là ai?",
     "step": 2,
-    "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
     "action_type": "FINAL_ANSWER",
-    "thought": "Tổng hợp kết quả từ MCP Server thành công.",
-    "output": "Chưa thể trả lời chi tiết do chưa nhận được dữ liệu từ MCP Server (hãy hoàn thành TODO 2.1).",
-    "latency_ms": 10.0
+    "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
+    "output": "Sinh viên SV2026001 có GPA là 3.85 và cố vấn là PGS.TS Nguyễn Văn A.",
+    "llm_latency_ms": 906.68,
+    "latency_ms": 906.68,
+    "response_id": "chatcmpl-ENXBGizguPPJ6rCnS0BiV4bAfvToV",
+    "usage": {
+      "completion_tokens": 26,
+      "prompt_tokens": 796,
+      "total_tokens": 822,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC04",
+    "query": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
+    "step": 1,
+    "action_type": "TOOL_EXECUTION",
+    "thought": "Cần tra cứu hồ sơ DEMO trước khi trả dữ liệu cá nhân hoặc tạo lịch.",
+    "thought_source": "public_summary_of_observed_tool_choice",
+    "tool_name": "academic_query",
+    "arguments": {
+      "student_id": "SV2026002"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "student_id": "SV2026002",
+      "data": {
+        "full_name": "Trần Thị Bình",
+        "class": "AI-K4",
+        "gpa": 3.6,
+        "email": "binh.tt@vinuni.edu.vn",
+        "status": "Đang học",
+        "advisor": "TS. Lê Thị B"
+      }
+    },
+    "jsonrpc": "2.0",
+    "llm_latency_ms": 964.72,
+    "tool_latency_ms": 0.03,
+    "latency_ms": 964.75,
+    "response_id": "chatcmpl-ENXBIIreQzbLJYgXbscoOfGzT5GPV",
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 676,
+      "total_tokens": 695,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC04",
+    "query": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
+    "step": 2,
+    "action_type": "TOOL_EXECUTION",
+    "thought": "Đã có observation tra cứu thành công; dùng đúng cố vấn để tạo bản nháp lịch DEMO.",
+    "thought_source": "public_summary_of_observed_tool_choice",
+    "tool_name": "schedule_appointment",
+    "arguments": {
+      "student_id": "SV2026002",
+      "datetime_str": "14:00 15/09/2026",
+      "advisor_name": "TS. Lê Thị B"
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "simulated": true,
+      "booking_id": "DEMO-99F49B87E9",
+      "student_id": "SV2026002",
+      "datetime": "14:00 15/09/2026",
+      "advisor": "TS. Lê Thị B",
+      "message": "Đã tạo bản nháp lịch tư vấn DEMO; chưa gửi tới VinUni."
+    },
+    "jsonrpc": "2.0",
+    "llm_latency_ms": 1116.46,
+    "tool_latency_ms": 5.98,
+    "latency_ms": 1122.44,
+    "response_id": "chatcmpl-ENXBJHslkUZC8Q9Stywmh440t3wLt",
+    "usage": {
+      "completion_tokens": 44,
+      "prompt_tokens": 815,
+      "total_tokens": 859,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC04",
+    "query": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
+    "step": 3,
+    "action_type": "FINAL_ANSWER",
+    "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
+    "output": "Đã tạo bản nháp lịch tư vấn DEMO cho SV2026002 với cố vấn TS. Lê Thị B lúc 14:00 15/09/2026; lịch này chưa gửi tới VinUni.",
+    "llm_latency_ms": 1178.05,
+    "latency_ms": 1178.05,
+    "response_id": "chatcmpl-ENXBKIL5kJTYet2ktgWlTknGKxhJX",
+    "usage": {
+      "completion_tokens": 48,
+      "prompt_tokens": 988,
+      "total_tokens": 1036,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC05",
+    "query": "Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ.",
+    "step": 1,
+    "action_type": "TOOL_EXECUTION",
+    "thought": "Cần tra cứu hồ sơ DEMO trước khi trả dữ liệu cá nhân hoặc tạo lịch.",
+    "thought_source": "public_summary_of_observed_tool_choice",
+    "tool_name": "academic_query",
+    "arguments": {
+      "student_id": "SV9999999"
+    },
+    "observation": {
+      "status": "NOT_FOUND",
+      "message": "Không tìm thấy dữ liệu sinh viên có mã 'SV9999999'"
+    },
+    "jsonrpc": "2.0",
+    "llm_latency_ms": 1128.29,
+    "tool_latency_ms": 0.1,
+    "latency_ms": 1128.39,
+    "response_id": "chatcmpl-ENXBM3xUNsHfqA3t3kRCf4avON7r6",
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 674,
+      "total_tokens": 693,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
+  },
+  {
+    "test_id": "TC05",
+    "query": "Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ.",
+    "step": 2,
+    "action_type": "FINAL_ANSWER",
+    "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
+    "output": "Không tìm thấy hồ sơ sinh viên mã SV9999999, nên không thể tạo lịch tư vấn.",
+    "llm_latency_ms": 1591.04,
+    "latency_ms": 1591.04,
+    "response_id": "chatcmpl-ENXBNWgyScIOYlSsKaJhaJ1nUJA2D",
+    "usage": {
+      "completion_tokens": 22,
+      "prompt_tokens": 759,
+      "total_tokens": 781,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": null,
+        "cached_tokens": 0
+      }
+    }
   }
 ]

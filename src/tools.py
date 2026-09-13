@@ -4,6 +4,8 @@ Mã nguồn chứa danh sách Tool Schemas (JSON Schema) và Execution Layer ph�
 """
 
 import json
+import hashlib
+from datetime import datetime
 from typing import Dict, Any
 
 # ==============================================================================
@@ -14,7 +16,11 @@ TOOLS_SCHEMA = [
     # Tool 1: Đã được định nghĩa mẫu sẵn cho Học viên tham khảo
     {
         "name": "academic_query",
-        "description": "Tra cứu hồ sơ và thông tin học vụ của sinh viên VinUni bằng mã sinh viên.",
+        "description": (
+            "Tra cứu hồ sơ sinh viên trong bộ dữ liệu DEMO bằng mã SVxxxxxxx. "
+            "Trả SUCCESS với GPA và cố vấn hoặc NOT_FOUND; dùng trước khi tạo lịch. "
+            "Không truy cập dữ liệu VinUni thật."
+        ),
         "parameters": {
             "type": "object",
             "properties": {
@@ -28,24 +34,31 @@ TOOLS_SCHEMA = [
     },
     
     # --------------------------------------------------------------------------
-    # TODO 1.2: HỌC VIÊN HOÀN THIỆN TOOL SCHEMA CHO 'schedule_appointment'
-    # 🎯 YÊU CẦU THIẾT KẾ SCHEMA (JSON SCHEMA STANDARD):
-    # 1. Tool dùng để đặt lịch hẹn tư vấn học vụ với Cố vấn học tập VinUni.
-    # 2. Thiết kế các tham số (properties) để LLM trích xuất:
-    #    - student_id (string): Mã sinh viên cần đặt lịch (ví dụ: 'SV2026001')
-    #    - datetime_str (string): Thời gian hẹn (ví dụ: '14:00 15/09/2026')
-    #    - advisor_name (string): Tên cố vấn học tập
-    # 3. Khai báo danh sách các trường bắt buộc (required).
-    # --------------------------------------------------------------------------
     {
         "name": "schedule_appointment",
-        "description": "Đặt lịch hẹn tư vấn học vụ với Cố vấn học tập VinUni.",
+        "description": (
+            "Tạo bản nháp lịch tư vấn trong dữ liệu DEMO, không đặt lịch VinUni thật. "
+            "Chỉ dùng khi người dùng yêu cầu đặt lịch, đã tra cứu academic_query thành công "
+            "trong phiên này và có thời gian cụ thể. advisor_name phải lấy đúng từ kết quả tra cứu."
+        ),
         "parameters": {
             "type": "object",
             "properties": {
-                # TODO 1.2: Khai báo các thuộc tính tham số cho Tool tại đây...
+                "student_id": {
+                    "type": "string",
+                    "description": "Mã sinh viên DEMO đã tra cứu, ví dụ SV2026001."
+                },
+                "datetime_str": {
+                    "type": "string",
+                    "description": "Thời gian hẹn theo định dạng HH:MM DD/MM/YYYY, ví dụ 14:00 15/09/2026."
+                },
+                "advisor_name": {
+                    "type": "string",
+                    "description": "Tên cố vấn chính xác trong observation của academic_query."
+                }
             },
-            "required": [] # TODO 1.2: Khai báo danh sách các trường bắt buộc tại đây...
+            "required": ["student_id", "datetime_str", "advisor_name"],
+            "additionalProperties": False
         }
     }
 ]
@@ -73,6 +86,9 @@ MOCK_DATABASE = {
     }
 }
 
+# Trạng thái phiên demo: không ghi sang hệ thống học vụ thật.
+BOOKING_DRAFTS: Dict[str, Dict[str, Any]] = {}
+
 
 def execute_academic_query(student_id: str) -> str:
     """Thực thi tra cứu học vụ theo mã sinh viên"""
@@ -90,16 +106,31 @@ def execute_academic_query(student_id: str) -> str:
         }, ensure_ascii=False)
 
 
-def execute_schedule_appointment(student_id: str, datetime_str: str, advisor_name: str = "PGS.TS Nguyễn Văn A") -> str:
-    """Thực thi đặt lịch hẹn tư vấn học vụ"""
-    return json.dumps({
-        "status": "SUCCESS",
-        "booking_id": f"BK-{student_id}-99",
-        "student_id": student_id,
-        "datetime": datetime_str,
-        "advisor": advisor_name,
-        "message": f"Đặt lịch thành công cho sinh viên {student_id} với {advisor_name} vào lúc {datetime_str}."
-    }, ensure_ascii=False)
+def execute_schedule_appointment(student_id: str, datetime_str: str, advisor_name: str) -> str:
+    """Tạo bản nháp lịch hẹn trong bộ dữ liệu giả lập, có kiểm tra điều kiện."""
+    student_id = student_id.strip().upper()
+    student = MOCK_DATABASE.get(student_id)
+    if student is None:
+        return json.dumps({"status": "NOT_FOUND", "student_id": student_id,
+                           "message": "Không có sinh viên DEMO này; không tạo lịch."}, ensure_ascii=False)
+    if advisor_name.strip() != student["advisor"]:
+        return json.dumps({"status": "ADVISOR_MISMATCH", "student_id": student_id,
+                           "message": "Cố vấn không khớp hồ sơ DEMO; không tạo lịch."}, ensure_ascii=False)
+    try:
+        datetime.strptime(datetime_str.strip(), "%H:%M %d/%m/%Y")
+    except ValueError:
+        return json.dumps({"status": "INVALID_DATETIME",
+                           "message": "Dùng định dạng HH:MM DD/MM/YYYY; không tạo lịch."}, ensure_ascii=False)
+    booking_id = "DEMO-" + hashlib.sha256(
+        f"{student_id}|{datetime_str}|{advisor_name}".encode("utf-8")
+    ).hexdigest()[:10].upper()
+    booking = {
+        "status": "SUCCESS", "simulated": True, "booking_id": booking_id,
+        "student_id": student_id, "datetime": datetime_str.strip(),
+        "advisor": advisor_name, "message": "Đã tạo bản nháp lịch tư vấn DEMO; chưa gửi tới VinUni."
+    }
+    BOOKING_DRAFTS[booking_id] = booking
+    return json.dumps(booking, ensure_ascii=False)
 
 
 # Router gọi tool thực tế

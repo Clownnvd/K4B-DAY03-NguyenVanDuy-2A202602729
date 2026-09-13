@@ -1,0 +1,177 @@
+{
+  "provider": "OpenAIProvider",
+  "model": "gpt-4.1-mini",
+  "live_api": true,
+  "passed": 5,
+  "total": 5,
+  "cases": [
+    {
+      "id": "TC01",
+      "category": "chatbot_wins",
+      "question": "Đây là bản demo gì và hỗ trợ những việc nào?",
+      "expected_behavior": "Trả lời về chức năng demo, không gọi tool; chatbot baseline đủ dùng.",
+      "baseline": {
+        "answer": "Đây là chatbot DEMO học vụ hỗ trợ tra cứu GPA và cố vấn theo mã sinh viên dạng SVxxxxxxx. Bạn có thể nhập mã sinh viên để xem thông tin GPA hoặc cố vấn. Sau khi tra cứu, chatbot có thể giúp tạo bản nháp lịch tư vấn. Tuy nhiên, chatbot không truy cập được dữ liệu cá nhân thật hay đặt lịch chính thức.",
+        "latency_ms": 3162.39,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "agent": {
+        "answer": "Bản demo này là hệ thống hỗ trợ học vụ bằng dữ liệu giả lập của VinUni. Nó giúp trả lời các câu hỏi đơn giản về học vụ, tra cứu thông tin sinh viên như GPA, cố vấn học tập dựa trên mã sinh viên, và tạo bản nháp lịch hẹn với cố vấn học tập theo yêu cầu. Tuy nhiên, dữ liệu chỉ là giả lập, không đại diện cho VinUni thật.",
+        "success": true,
+        "latency_ms": 2609.84,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "evaluation": {
+        "passed": true,
+        "actual_tools": [],
+        "actual_statuses": [],
+        "expected_tools": [],
+        "expected_statuses": []
+      }
+    },
+    {
+      "id": "TC02",
+      "category": "chatbot_wins",
+      "question": "Để bạn tra cứu hồ sơ học vụ DEMO, tôi cần cung cấp thông tin gì?",
+      "expected_behavior": "Giải thích cần mã sinh viên DEMO; không tra cứu khi chưa có mã.",
+      "baseline": {
+        "answer": "Bạn cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu GPA hoặc cố vấn học tập. Tôi không hỗ trợ tra cứu bằng họ tên hay thông tin khác.",
+        "latency_ms": 1122.96,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "agent": {
+        "answer": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu hồ sơ học vụ DEMO cho bạn.",
+        "success": true,
+        "latency_ms": 1184.37,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "evaluation": {
+        "passed": true,
+        "actual_tools": [],
+        "actual_statuses": [],
+        "expected_tools": [],
+        "expected_statuses": []
+      }
+    },
+    {
+      "id": "TC03",
+      "category": "agent_wins",
+      "question": "Trong dữ liệu DEMO, tra cứu SV2026001: GPA và cố vấn của bạn ấy là ai?",
+      "expected_behavior": "Gọi academic_query, dùng đúng observation; baseline không có dữ liệu.",
+      "baseline": {
+        "answer": "Bạn vui lòng cung cấp mã sinh viên đúng định dạng SVxxxxxxx để tra cứu GPA và cố vấn. Tôi chỉ hỗ trợ tra cứu theo mã sinh viên, không tra cứu theo tên.",
+        "latency_ms": 1105.74,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "agent": {
+        "answer": "Sinh viên SV2026001 có GPA là 3.85 và cố vấn là PGS.TS Nguyễn Văn A.",
+        "success": true,
+        "latency_ms": 1842.84,
+        "tool_calls": 1,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "evaluation": {
+        "passed": true,
+        "actual_tools": [
+          "academic_query"
+        ],
+        "actual_statuses": [
+          "SUCCESS"
+        ],
+        "expected_tools": [
+          "academic_query"
+        ],
+        "expected_statuses": [
+          "SUCCESS"
+        ]
+      }
+    },
+    {
+      "id": "TC04",
+      "category": "agent_wins",
+      "question": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
+      "expected_behavior": "Tra cứu trước, lấy cố vấn từ observation, sau đó tạo lịch DEMO; không báo là lịch thật.",
+      "baseline": {
+        "answer": "Bạn vui lòng cung cấp mã sinh viên đúng định dạng SVxxxxxxx để tra cứu GPA và cố vấn. Sau khi tra cứu, tôi có thể giúp tạo bản nháp lịch tư vấn với thời gian bạn muốn. Tuy nhiên, tôi không thể xác minh hay đặt lịch thực tế.",
+        "latency_ms": 1385.08,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "agent": {
+        "answer": "Đã tạo bản nháp lịch tư vấn DEMO cho SV2026002 với cố vấn TS. Lê Thị B lúc 14:00 15/09/2026; lịch này chưa gửi tới VinUni.",
+        "success": true,
+        "latency_ms": 3265.5,
+        "tool_calls": 2,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "evaluation": {
+        "passed": true,
+        "actual_tools": [
+          "academic_query",
+          "schedule_appointment"
+        ],
+        "actual_statuses": [
+          "SUCCESS",
+          "SUCCESS"
+        ],
+        "expected_tools": [
+          "academic_query",
+          "schedule_appointment"
+        ],
+        "expected_statuses": [
+          "SUCCESS",
+          "SUCCESS"
+        ]
+      }
+    },
+    {
+      "id": "TC05",
+      "category": "edge_case",
+      "question": "Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ.",
+      "expected_behavior": "Tra cứu NOT_FOUND rồi dừng, không tạo lịch hay bịa cố vấn.",
+      "baseline": {
+        "answer": "Mã sinh viên SV9999999 không có trong dữ liệu DEMO của tôi, nên tôi không thể tra cứu GPA hay cố vấn. Vì vậy, tôi cũng không thể tạo bản nháp lịch tư vấn cho mã này. Bạn vui lòng cung cấp mã sinh viên hợp lệ theo định dạng SVxxxxxxx để tôi hỗ trợ.",
+        "latency_ms": 1273.91,
+        "tool_calls": 0,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "agent": {
+        "answer": "Không tìm thấy hồ sơ sinh viên mã SV9999999, nên không thể tạo lịch tư vấn.",
+        "success": true,
+        "latency_ms": 2719.73,
+        "tool_calls": 1,
+        "model": "gpt-4.1-mini",
+        "live_api": true
+      },
+      "evaluation": {
+        "passed": true,
+        "actual_tools": [
+          "academic_query"
+        ],
+        "actual_statuses": [
+          "NOT_FOUND"
+        ],
+        "expected_tools": [
+          "academic_query"
+        ],
+        "expected_statuses": [
+          "NOT_FOUND"
+        ]
+      }
+    }
+  ]
+}

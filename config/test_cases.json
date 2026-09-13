@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC01",
+    "category": "chatbot_wins",
+    "type": "direct_query",
+    "complexity": "Low",
+    "question": "Đây là bản demo gì và hỗ trợ những việc nào?",
+    "expected_behavior": "Trả lời về chức năng demo, không gọi tool; chatbot baseline đủ dùng.",
+    "expected_tools": [],
+    "expected_statuses": []
+  },
+  {
+    "id": "TC02",
+    "category": "chatbot_wins",
+    "type": "direct_query",
+    "complexity": "Low",
+    "question": "Để bạn tra cứu hồ sơ học vụ DEMO, tôi cần cung cấp thông tin gì?",
+    "expected_behavior": "Giải thích cần mã sinh viên DEMO; không tra cứu khi chưa có mã.",
+    "expected_tools": [],
+    "expected_statuses": []
+  },
+  {
+    "id": "TC03",
+    "category": "agent_wins",
+    "type": "single_tool_query",
+    "complexity": "Medium",
+    "question": "Trong dữ liệu DEMO, tra cứu SV2026001: GPA và cố vấn của bạn ấy là ai?",
+    "expected_behavior": "Gọi academic_query, dùng đúng observation; baseline không có dữ liệu.",
+    "expected_tools": ["academic_query"],
+    "expected_statuses": ["SUCCESS"]
+  },
+  {
+    "id": "TC04",
+    "category": "agent_wins",
+    "type": "chained_booking",
+    "complexity": "High",
+    "question": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
+    "expected_behavior": "Tra cứu trước, lấy cố vấn từ observation, sau đó tạo lịch DEMO; không báo là lịch thật.",
+    "expected_tools": ["academic_query", "schedule_appointment"],
+    "expected_statuses": ["SUCCESS", "SUCCESS"]
+  },
+  {
+    "id": "TC05",
+    "category": "edge_case",
+    "type": "unknown_student",
+    "complexity": "Medium",
+    "question": "Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ.",
+    "expected_behavior": "Tra cứu NOT_FOUND rồi dừng, không tạo lịch hay bịa cố vấn.",
+    "expected_tools": ["academic_query"],
+    "expected_statuses": ["NOT_FOUND"]
+  }
+]
