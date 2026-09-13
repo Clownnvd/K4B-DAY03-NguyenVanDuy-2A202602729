@@ -4,7 +4,9 @@
 **Lớp:** K4B (ca chiều) · **Đề tài:** Trợ lý học vụ DEMO tra cứu sinh viên và tạo bản nháp lịch tư vấn<br>
 **Nguồn bài lab:** [Starter repo K4B MCP Enhanced](https://github.com/VinUni-AI20k/K4B-Day03-Lab-Chatbot-vs-ReAct-Agent-MCP)
 
-**Trạng thái nộp:** Đang chuyển link VLearn từ repo K4A sang repo K4B theo ca chiều.
+**Trạng thái nộp:** Đã cập nhật [link repo K4B trên VLearn](https://vlearn.dev/labs)
+lúc **15:05:55 ngày 13/09/2026**. Mức 5/5 sao trên form là đánh giá do học viên chọn,
+chưa phải điểm chấm của giảng viên.
 
 Repo này giữ cùng một use case cho hai hệ thống. Chatbot baseline trả lời bằng một lần
 gọi LLM, không có công cụ. ReAct agent được gọi native functions qua adapter MCP-style:

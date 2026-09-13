@@ -90,7 +90,7 @@ TC05 cho thấy `NOT_FOUND` rồi `FINAL_ANSWER`, không có `schedule_appointme
 - [x] Chạy `python src/app.py --interactive` với API thật: tra cứu `SV2026001`, nhận GPA 3.85 và cố vấn từ observation.
 - [x] Có UI địa phương tại `python src/web_ui.py`, thiết kế lại theo bố cục FiProve: điều hướng trái, đối chiếu giữa, bằng chứng/trace phải; có màn hình hẹp.
 - [x] UI đã được kiểm tra bằng một lượt gọi API thật; [ảnh minh chứng](ui_live.png) hiển thị hai tool calls và câu trả lời cuối.
-- [ ] Push bản K4B lên [repo GitHub cá nhân](https://github.com/Clownnvd/K4B-DAY03-NguyenVanDuy-2A202602729) và cập nhật link trên VLearn sau nghiệm thu.
+- [x] Đã push bản K4B lên [repo GitHub cá nhân](https://github.com/Clownnvd/K4B-DAY03-NguyenVanDuy-2A202602729) và cập nhật link nộp trên VLearn lúc **15:05:55 ngày 13/09/2026**. Mức 5/5 sao là đánh giá trên form do học viên chọn, chưa phải điểm giảng viên.
 
 **Kết luận dựa trên kết quả:** Với câu hỏi chức năng đơn giản, chatbot baseline đủ và
 không cần trả thêm chi phí tool loop. Với câu hỏi hồ sơ và chuỗi tra cứu → tạo lịch,
