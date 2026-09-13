@@ -88,7 +88,8 @@ TC05 cho thấy `NOT_FOUND` rồi `FINAL_ANSWER`, không có `schedule_appointme
 - [x] Chạy 5/5 ca với OpenAI API thật, model `gpt-4.1-mini`; trace ghi `response_id`, latency và observation từng bước.
 - [x] Có UI địa phương tại `python src/web_ui.py` để demo hai câu trả lời và waterfall trace cạnh nhau.
 - [x] UI đã được kiểm tra bằng một lượt gọi API thật; [ảnh minh chứng](ui_live.png) hiển thị hai tool calls và câu trả lời cuối.
-- [ ] Push repo cá nhân và nộp link trên VLearn — cập nhật sau bước cuối.
+- [x] Đã commit và push mã nguồn, 5 test cases, trace, báo cáo, sơ đồ và UI lên [repo GitHub cá nhân](https://github.com/Clownnvd/K4A-DAY03-NguyenVanDuy-2A202602729).
+- [x] Đã nộp link repo trên VLearn lúc **12:49:11 ngày 13/09/2026**. Trang Lab hiển thị **3/3 bài đã nộp**; mức **5/5 sao** là đánh giá trên form do học viên chọn, chưa phải điểm chấm của giảng viên.
 
 **Kết luận dựa trên kết quả:** Với câu hỏi chức năng đơn giản, chatbot baseline đủ và
 không cần trả thêm chi phí tool loop. Với câu hỏi hồ sơ và chuỗi tra cứu → tạo lịch,
