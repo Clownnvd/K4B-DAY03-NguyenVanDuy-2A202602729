@@ -42,6 +42,7 @@ với `LLM_PROVIDER=openai` và `LLM_MODEL=gpt-4.1-mini`. Có thể đặt key t
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 Copy-Item .env.example .env  # Chỉ khi chưa có .env
+.\.venv\Scripts\python.exe src/tools.py
 .\.venv\Scripts\python.exe src/app.py --all --mock
 .\.venv\Scripts\python.exe src/app.py --all
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v

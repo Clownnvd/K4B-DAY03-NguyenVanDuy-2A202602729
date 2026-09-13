@@ -5,8 +5,15 @@ Mã nguồn chứa danh sách Tool Schemas (JSON Schema) và Execution Layer ph�
 
 import json
 import hashlib
+import sys
 from datetime import datetime
 from typing import Dict, Any
+
+if sys.stdout.encoding != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
 
 # ==============================================================================
 # 1. KHAI BÁO TOOL SCHEMAS CHUẨN NATIVE JSON SCHEMA (TASK 1.2)
@@ -147,3 +154,14 @@ def dispatch_tool_call(tool_name: str, arguments: Dict[str, Any]) -> str:
         except Exception as e:
             return json.dumps({"status": "EXECUTION_ERROR", "error": str(e)}, ensure_ascii=False)
     return json.dumps({"status": "UNKNOWN_TOOL", "error": f"Tool '{tool_name}' không tồn tại!"}, ensure_ascii=False)
+
+
+if __name__ == "__main__":
+    """Checkpoint 2 in the VLearn codelab: inspect both schemas and a direct dispatch."""
+    assert len(TOOLS_SCHEMA) == 2
+    assert all(tool["parameters"]["properties"] for tool in TOOLS_SCHEMA)
+    result = json.loads(dispatch_tool_call("academic_query", {"student_id": "SV2026001"}))
+    assert result["status"] == "SUCCESS"
+    print(f"✅ [TOOLS CHECK]: Đã đăng ký thành công {len(TOOLS_SCHEMA)} Native Tools trong TOOLS_SCHEMA!")
+    print(f"🧪 Kết quả gọi thử academic_query: Status {result['status']} "
+          f"(Sinh viên {result['data']['full_name']})")
