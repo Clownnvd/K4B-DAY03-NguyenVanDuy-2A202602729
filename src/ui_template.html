@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kingpro Lab 03 — Chatbot vs ReAct Agent</title>
+  <style>
+    :root {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: #171b23;
+      background: #ffffff;
+      font-synthesis: none;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; }
+    button, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 282px minmax(0, 1fr) 320px; min-height: 100vh; }
+    .side { background: #f8f9fb; border-right: 1px solid #e7e9ee; display: flex; flex-direction: column; padding: 23px 10px 14px; }
+    .brand { display: flex; align-items: flex-start; gap: 10px; padding: 0 13px 28px; }
+    .brand-mark { width: 33px; height: 33px; display: grid; place-items: center; border-radius: 10px; background: #3168e7; color: #fff; font-size: 17px; font-weight: 900; letter-spacing: -.08em; }
+    .brand strong { display: block; font-size: 21px; letter-spacing: -.045em; line-height: 1; }
+    .brand small { display: block; margin-top: 6px; color: #5f6978; font-size: 10px; font-weight: 800; letter-spacing: .11em; }
+    .nav { width: 100%; display: flex; align-items: center; gap: 13px; text-align: left; text-decoration: none; border: 0; border-radius: 12px; background: transparent; padding: 12px 15px; color: #2c3543; font-size: 15px; }
+    .nav:hover, .nav.active { background: #eaecf1; }
+    .nav svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; flex: none; }
+    .nav-label { padding: 25px 16px 9px; color: #7d8795; font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .side-spacer { flex: 1; }
+    .account { display: flex; align-items: center; gap: 11px; padding: 15px 13px 2px; border-top: 1px solid #e0e4ea; }
+    .avatar { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 50%; color: white; background: #e85d4d; font-size: 11px; font-weight: 900; }
+    .account strong { display: block; font-size: 12px; }
+    .account small { display: block; color: #6c7787; font-size: 11px; margin-top: 3px; }
+    .main { min-width: 0; min-height: 100vh; display: flex; flex-direction: column; background: white; }
+    .topbar { min-height: 70px; display: flex; justify-content: center; align-items: center; position: relative; padding: 10px 24px; }
+    .segmented { background: #f1f2f4; padding: 4px; border-radius: 999px; display: flex; gap: 3px; }
+    .segmented button { border: 0; background: transparent; color: #4c5664; min-width: 128px; padding: 10px 17px; border-radius: 999px; font-weight: 650; }
+    .segmented button.active { background: white; color: #10141b; box-shadow: 0 2px 9px #18243b18; }
+    .api-pill { position: absolute; right: 23px; top: 17px; border: 1px solid #e1e5eb; border-radius: 999px; padding: 8px 11px; color: #3f4a59; font-size: 12px; white-space: nowrap; }
+    .api-pill::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #17a578; margin-right: 7px; }
+    .mobile-actions { display: none; }
+    .content { flex: 1; display: flex; flex-direction: column; min-width: 0; padding: 12px 32px 24px; }
+    .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin: 30px 0 40px; }
+    .hero-icon { width: 58px; height: 58px; border-radius: 20px; display: grid; place-items: center; color: white; background: #3168e7; box-shadow: 0 16px 35px #3168e72c; }
+    .hero-icon svg { width: 28px; height: 28px; stroke: currentColor; fill: none; stroke-width: 2; }
+    h1 { font-size: clamp(30px, 3.3vw, 45px); line-height: 1.13; letter-spacing: -.045em; margin: 25px 0 12px; max-width: 680px; }
+    .sub { color: #647080; font-size: 15px; line-height: 1.6; max-width: 660px; margin: 0 auto; }
+    .suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; margin-top: 27px; max-width: 730px; }
+    .suggestions button { max-width: 290px; min-height: 55px; border-radius: 999px; background: white; border: 1px solid #dfe3e9; color: #3c4654; padding: 10px 19px; font-size: 13px; line-height: 1.45; }
+    .suggestions button:hover { border-color: #a7bbea; background: #f7faff; }
+    .results, .cases, .workflow { width: 100%; max-width: 900px; margin: 30px auto 35px; }
+    .eyebrow { font-size: 11px; color: #747f8e; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h2 { letter-spacing: -.035em; font-size: 25px; line-height: 1.2; margin: 9px 0 10px; }
+    .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 22px; }
+    .answer-card { border: 1px solid #e2e5eb; border-radius: 19px; padding: 20px; min-height: 265px; display: flex; flex-direction: column; }
+    .answer-card.agent { border-color: #bcd0f9; background: #f8faff; }
+    .answer-tag { color: #697586; font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .answer-card.agent .answer-tag { color: #2b64da; }
+    .answer-card h3 { font-size: 20px; margin: 9px 0 14px; }
+    .answer-card p { white-space: pre-wrap; line-height: 1.65; color: #3f4b5b; margin: 0 0 17px; font-size: 14px; }
+    .answer-card footer { color: #6e7a8a; font-size: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid #e8ebf1; }
+    .result-note { margin-top: 19px; color: #717d8c; font-size: 12px; line-height: 1.55; }
+    .case-list { display: grid; gap: 10px; margin-top: 21px; }
+    .case { width: 100%; border: 1px solid #e2e6ec; border-radius: 14px; background: #fff; text-align: left; padding: 15px 17px; }
+    .case:hover { background: #f7faff; border-color: #adc3f3; }
+    .case b { color: #1d3f7c; font-size: 12px; margin-right: 10px; }
+    .case small { display: block; color: #737f8e; margin-top: 6px; }
+    .flow-steps { display: grid; gap: 13px; margin-top: 22px; }
+    .flow-step { display: flex; gap: 14px; border: 1px solid #e3e7ed; border-radius: 14px; padding: 16px; }
+    .flow-step .num { width: 27px; height: 27px; border-radius: 9px; background: #e9f0ff; color: #2b62d4; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex: none; }
+    .flow-step strong { font-size: 14px; }
+    .flow-step p { color: #687586; font-size: 13px; line-height: 1.5; margin: 5px 0 0; }
+    .composer-wrap { position: sticky; bottom: 0; background: linear-gradient(#fff0,#fff 25%); padding: 15px 0 13px; margin-top: auto; }
+    .composer { max-width: 940px; margin: auto; border: 1px solid #dfe4ea; border-radius: 23px; background: white; box-shadow: 0 12px 35px #1f2d4514; padding: 9px 11px; display: flex; gap: 10px; align-items: end; }
+    .composer textarea { resize: none; border: 0; outline: 0; min-height: 48px; max-height: 140px; flex: 1; padding: 12px 10px; color: #1c2633; font-size: 14px; line-height: 1.45; }
+    .composer textarea::placeholder { color: #9ba5b2; }
+    .send { width: 39px; height: 39px; flex: none; border: 0; border-radius: 50%; background: #e9edf0; color: #5f6e7b; display: grid; place-items: center; }
+    .send:hover { background: #3168e7; color: white; }
+    .send:disabled { opacity: .5; cursor: wait; }
+    .send svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .composer-foot { max-width: 940px; margin: 8px auto 0; display: flex; justify-content: space-between; gap: 12px; color: #8b95a1; font-size: 11px; padding: 0 8px; }
+    .verify-chip { border: 1px solid #d5ebe1; background: #f3fbf7; color: #187754; border-radius: 999px; padding: 5px 9px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .evidence { border-left: 1px solid #e6e9ee; display: flex; flex-direction: column; background: white; min-width: 0; }
+    .evidence-head { padding: 20px 22px 18px; border-bottom: 1px solid #e8ebef; }
+    .evidence-head small { color: #929aa6; font-size: 10px; font-weight: 900; letter-spacing: .13em; }
+    .evidence-head h2 { font-size: 17px; margin: 7px 0 0; letter-spacing: -.015em; }
+    .evidence-body { padding: 17px 18px; flex: 1; }
+    .empty { min-height: 410px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #8b95a0; }
+    .empty-icon { width: 55px; height: 55px; border-radius: 18px; display: grid; place-items: center; background: #e8f7f0; color: #388d69; font-size: 25px; margin-bottom: 14px; }
+    .empty strong { color: #5d6774; font-size: 15px; }
+    .empty p { font-size: 12px; line-height: 1.55; max-width: 230px; margin: 8px 0 0; }
+    .trace-step { border: 1px solid #e0e5eb; border-radius: 13px; padding: 13px; margin-bottom: 11px; }
+    .trace-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .trace-num { width: 24px; height: 24px; border-radius: 7px; background: #eef2fb; color: #3563b4; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+    .trace-top strong { font-size: 12px; overflow-wrap: anywhere; }
+    .status { margin-left: auto; color: #137d59; background: #edf9f2; border-radius: 999px; padding: 4px 7px; font-size: 10px; font-weight: 800; }
+    .status.warn { color: #a05716; background: #fff5e7; }
+    .trace-step p { color: #657282; font-size: 12px; line-height: 1.5; margin: 10px 0; }
+    .trace-step details { border-top: 1px solid #eef0f3; padding-top: 9px; }
+    .trace-step summary { color: #52627a; cursor: pointer; font-size: 11px; font-weight: 700; }
+    .trace-step pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 10px; line-height: 1.45; color: #4c5b6d; margin: 9px 0 0; }
+    .evidence-foot { padding: 14px 20px; border-top: 1px solid #ebedf0; color: #9aa3ae; font-size: 11px; line-height: 1.5; }
+    @media (max-width: 1150px) { .shell { grid-template-columns: 225px minmax(0,1fr); } .evidence { grid-column: 2; border-left: 0; border-top: 1px solid #e6e9ee; } .empty { min-height: 150px; } }
+    @media (max-width: 720px) { .shell { display: block; } .side { display: none; } .topbar { justify-content: flex-start; flex-wrap: wrap; gap: 9px; padding: 9px 14px; } .segmented button { min-width: 92px; padding: 9px 10px; } .api-pill { position: static; margin-left: auto; font-size: 10px; } .mobile-actions { display: flex; gap: 8px; width: 100%; } .mobile-actions button { background: #f2f4f7; border: 0; border-radius: 9px; color: #354356; padding: 8px 11px; font-size: 12px; } .content { padding: 10px 14px 20px; min-height: 72vh; } .welcome { margin: 30px 0 60px; } .suggestions button { max-width: 100%; } .result-grid { grid-template-columns: 1fr; } .evidence { border-top: 1px solid #e6e9ee; } .composer-wrap { position: static; background: white; } .composer-foot { font-size: 10px; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side" aria-label="Điều hướng">
+      <div class="brand"><span class="brand-mark">K</span><span><strong>KINGPRO</strong><small>HỌC VỤ · REACT LAB 03</small></span></div>
+      <button class="nav active" id="newSession"><svg viewBox="0 0 24 24"><path d="M4 5h15a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7l-4 2V7a2 2 0 0 1 1-2Z"/><path d="M9 12h8M13 8v8"/></svg>Phân tích mới</button>
+      <button class="nav" id="showCases"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Bộ 5 tình huống</button>
+      <button class="nav" id="showWorkflow"><svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><path d="M7 5h5a7 7 0 0 1 7 7M7 19h5a7 7 0 0 0 7-7"/></svg>Kiến trúc &amp; công cụ</button>
+      <div class="nav-label">Bằng chứng</div>
+      <a class="nav" href="https://github.com/Clownnvd/K4B-DAY03-NguyenVanDuy-2A202602729/blob/main/docs/trace_eval.md" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v5h5M9 13h6M9 17h6"/></svg>Báo cáo nghiệm thu</a>
+      <div class="side-spacer"></div>
+      <div class="account"><span class="avatar">ND</span><span><strong>NGUYỄN VĂN DUY</strong><small>2A202602729 · K4B</small></span></div>
+    </aside>
+
+    <main class="main" id="main">
+      <header class="topbar">
+        <div class="segmented" role="tablist" aria-label="Chế độ xem">
+          <button id="tabCompare" class="active" role="tab" aria-selected="true">Trò chuyện</button>
+          <button id="tabWorkflow" role="tab" aria-selected="false">Quy trình</button>
+        </div>
+        <span class="api-pill" id="providerBadge">Đang kiểm tra API</span>
+        <div class="mobile-actions"><button id="mobileNew" type="button">Phân tích mới</button><button id="mobileCases" type="button">5 tình huống</button></div>
+      </header>
+
+      <div class="content">
+        <section class="welcome" id="welcome">
+          <div class="hero-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15v-4M13 15V7M18 15v-6"/></svg></div>
+          <h1>Anh muốn kiểm tra tình huống học vụ nào?</h1>
+          <p class="sub">Cùng một câu hỏi chạy qua chatbot baseline và ReAct agent. Agent chỉ trả lời dữ liệu cá nhân sau khi công cụ trả về bằng chứng.</p>
+          <div class="suggestions">
+            <button type="button" data-case="0">Bản demo này hỗ trợ những việc gì?</button>
+            <button type="button" data-case="2">GPA và cố vấn của SV2026001 là ai?</button>
+            <button type="button" data-case="3">Tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn</button>
+          </div>
+        </section>
+
+        <section class="results" id="results" hidden>
+          <span class="eyebrow">KẾT QUẢ ĐỐI CHIẾU · CÙNG MỘT CÂU HỎI</span>
+          <h2 id="queryTitle">Kết quả phân tích</h2>
+          <p class="sub" style="margin:0">Đường cơ sở không dùng tool. Agent có thể gọi công cụ, đọc observation và quyết định bước tiếp theo.</p>
+          <div class="result-grid">
+            <article class="answer-card"><span class="answer-tag">CẤP 2 · MỘT LƯỢT LLM</span><h3>Chatbot baseline</h3><p id="baseAnswer"></p><footer id="baseMeta"></footer></article>
+            <article class="answer-card agent"><span class="answer-tag">CẤP 3 · REACT + TOOL</span><h3>ReAct agent</h3><p id="agentAnswer"></p><footer id="agentMeta"></footer></article>
+          </div>
+          <p class="result-note">Mọi hồ sơ sinh viên và bản nháp lịch ở đây đều là dữ liệu giả lập. Không có thao tác nào ghi vào hệ thống VinUni thật.</p>
+        </section>
+
+        <section class="cases" id="cases" hidden>
+          <span class="eyebrow">BỘ KIỂM THỬ CỦA BÀI LAB</span><h2>5 tình huống có mục đích</h2>
+          <p class="sub" style="margin:0">Hai câu hỏi chatbot đủ tốt, hai câu agent cần tool và một ca biên không tìm thấy dữ liệu.</p>
+          <div class="case-list" id="caseList"></div>
+        </section>
+
+        <section class="workflow" id="workflow" hidden>
+          <span class="eyebrow">KIẾN TRÚC AGENT</span><h2>Quyết định, hành động, quan sát</h2>
+          <p class="sub" style="margin:0">Tool trả dữ liệu DEMO. Agent không tự bịa GPA, cố vấn hoặc xác nhận đặt lịch thật.</p>
+          <div class="flow-steps">
+            <div class="flow-step"><span class="num">1</span><div><strong>Phân loại câu hỏi</strong><p>Câu đơn giản đi thẳng tới trả lời; câu có mã sinh viên cần tra cứu.</p></div></div>
+            <div class="flow-step"><span class="num">2</span><div><strong>academic_query · tra cứu</strong><p>Trả SUCCESS với GPA/cố vấn hoặc NOT_FOUND. Đây là observation quyết định bước sau.</p></div></div>
+            <div class="flow-step"><span class="num">3</span><div><strong>schedule_appointment · hành động có điều kiện</strong><p>Chỉ tạo bản nháp khi người dùng yêu cầu, có thời gian và hồ sơ đã tra cứu thành công.</p></div></div>
+            <div class="flow-step"><span class="num">4</span><div><strong>Dừng và báo đúng trạng thái</strong><p>Tối đa 5 vòng; chặn tool call lặp; không có dữ liệu thì từ chối, không giả lập lịch thật.</p></div></div>
+          </div>
+        </section>
+
+        <div class="composer-wrap">
+          <form class="composer" id="askForm">
+            <textarea id="question" aria-label="Câu hỏi học vụ" placeholder="Hỏi về hồ sơ học vụ DEMO..." rows="2" maxlength="500"></textarea>
+            <span class="verify-chip">✓ Dữ liệu DEMO</span>
+            <button class="send" id="run" type="submit" aria-label="Gửi câu hỏi"><svg viewBox="0 0 24 24"><path d="m4 12 16-8-5 16-3-7-8-1Z"/><path d="m12 13 8-9"/></svg></button>
+          </form>
+          <div class="composer-foot"><span id="requestStatus">Sẵn sàng kiểm tra</span><span>Nguồn giả lập · Tool có điều kiện · Không đủ dữ liệu sẽ từ chối</span></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="evidence" aria-label="Vết thực thi">
+      <div class="evidence-head"><small>KIỂM CHỨNG</small><h2>Waterfall trace</h2></div>
+      <div class="evidence-body" id="evidenceBody">
+        <div class="empty" id="emptyTrace"><div class="empty-icon">▤</div><strong>Chưa có trace</strong><p>Chạy một câu hỏi. Các quyết định gọi tool và observation sẽ xuất hiện tại đây.</p></div>
+        <div id="traceList" hidden></div>
+      </div>
+      <div class="evidence-foot">Trace ghi quyết định gọi tool quan sát được, không phải suy luận riêng tư của model.</div>
+    </aside>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const examples = [
+      {id:"TC01",kind:"CHATBOT ĐỦ",q:"Đây là bản demo gì và hỗ trợ những việc nào?"},
+      {id:"TC02",kind:"CHATBOT ĐỦ",q:"Để bạn tra cứu hồ sơ học vụ DEMO, tôi cần cung cấp thông tin gì?"},
+      {id:"TC03",kind:"CẦN TRA CỨU",q:"Trong dữ liệu DEMO, tra cứu SV2026001: GPA và cố vấn của bạn ấy là ai?"},
+      {id:"TC04",kind:"HAI TOOL PHỤ THUỘC",q:"Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026."},
+      {id:"TC05",kind:"CA BIÊN",q:"Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ."}
+    ];
+    let lastResult = null;
+    function esc(value) { return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+    function show(view) {
+      $("welcome").hidden = view !== "compare" || !!lastResult;
+      $("results").hidden = view !== "compare" || !lastResult;
+      $("cases").hidden = view !== "cases";
+      $("workflow").hidden = view !== "workflow";
+      $("tabCompare").classList.toggle("active", view !== "workflow");
+      $("tabWorkflow").classList.toggle("active", view === "workflow");
+      $("tabCompare").setAttribute("aria-selected", view !== "workflow");
+      $("tabWorkflow").setAttribute("aria-selected", view === "workflow");
+      document.querySelectorAll(".nav").forEach(x => x.classList.remove("active"));
+      (view === "cases" ? $("showCases") : view === "workflow" ? $("showWorkflow") : $("newSession")).classList.add("active");
+    }
+    function choose(i) { $("question").value = examples[i].q; show("compare"); $("question").focus(); }
+    document.querySelectorAll("[data-case]").forEach(b => b.addEventListener("click", () => choose(Number(b.dataset.case))));
+    $("caseList").innerHTML = examples.map((e,i) => '<button class="case" type="button" data-pick="' + i + '"><b>' + esc(e.id) + ' · ' + esc(e.kind) + '</b>' + esc(e.q) + '<small>Chọn câu này để đưa xuống ô hỏi</small></button>').join("");
+    document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => choose(Number(b.dataset.pick))));
+    $("newSession").onclick = () => { lastResult = null; $("question").value = ""; $("traceList").hidden = true; $("traceList").innerHTML = ""; $("emptyTrace").hidden = false; $("requestStatus").textContent = "Sẵn sàng kiểm tra"; show("compare"); $("question").focus(); };
+    $("mobileNew").onclick = () => $("newSession").click();
+    $("mobileCases").onclick = () => show("cases");
+    $("showCases").onclick = () => show("cases");
+    $("showWorkflow").onclick = () => show("workflow");
+    $("tabCompare").onclick = () => show("compare");
+    $("tabWorkflow").onclick = () => show("workflow");
+    function renderTrace(events) {
+      if (!events.length) return;
+      $("emptyTrace").hidden = true;
+      $("traceList").hidden = false;
+      $("traceList").innerHTML = events.map((e,index) => {
+        const result = e.observation || {};
+        const status = result.status || (e.action_type === "FINAL_ANSWER" ? "FINAL" : e.action_type);
+        const warn = status !== "SUCCESS" && status !== "FINAL";
+        const title = e.tool_name || (e.action_type === "FINAL_ANSWER" ? "Câu trả lời cuối" : "Điều kiện dừng");
+        const detail = e.tool_name ? 'Arguments: ' + JSON.stringify(e.arguments) + '\nObservation: ' + JSON.stringify(result) : (e.output || e.error || "");
+        return '<div class="trace-step"><div class="trace-top"><span class="trace-num">' + String(index + 1).padStart(2,"0") + '</span><strong>' + esc(title) + '</strong><span class="status ' + (warn ? 'warn' : '') + '">' + esc(status) + '</span></div><p>' + esc(e.thought || "") + '</p><details><summary>Xem tham số và kết quả</summary><pre>' + esc(detail) + '</pre></details></div>';
+      }).join("");
+    }
+    $("askForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const question = $("question").value.trim();
+      if (!question) { $("question").focus(); return; }
+      $("run").disabled = true; $("requestStatus").textContent = "Đang gọi model và kiểm chứng từng bước…";
+      try {
+        const response = await fetch("/api/compare", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({question})});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Không chạy được");
+        lastResult = data;
+        $("queryTitle").textContent = question;
+        $("baseAnswer").textContent = data.baseline.answer;
+        $("agentAnswer").textContent = data.agent.answer;
+        $("baseMeta").textContent = data.baseline.latency_ms + " ms · 0 tool";
+        $("agentMeta").textContent = data.agent.latency_ms + " ms · " + data.agent.tool_calls + " tool call · " + data.agent.model;
+        renderTrace(data.agent.trace);
+        $("requestStatus").textContent = "Đã kiểm chứng · " + data.agent.tool_calls + " tool call";
+        show("compare");
+        window.scrollTo({top:0,behavior:"smooth"});
+      } catch (error) {
+        $("requestStatus").textContent = "Lỗi: " + error.message;
+      } finally { $("run").disabled = false; }
+    });
+    fetch("/health").then(r => r.json()).then(d => { $("providerBadge").textContent = d.live_api ? d.model + " · API thật" : d.model + " · Mock"; }).catch(() => { $("providerBadge").textContent = "Không kết nối API"; });
+  </script>
+</body>
+</html>

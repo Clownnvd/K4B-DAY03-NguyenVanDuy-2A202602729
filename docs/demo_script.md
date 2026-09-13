@@ -4,7 +4,7 @@
 2. **Agentic Fit:** Multi-step 4/5, Tool 5/5, Dynamic 4/5, Long Horizon 2/5 = 15/20. Bảng ba tiêu chí trên slide = 13/15. Điểm Long Horizon thấp vì tác vụ chỉ kéo dài vài bước, không có memory dài hạn.
 3. **Workflow:** Mở [flowchart.md](flowchart.md). Agent hỏi LLM chọn bước, gọi `academic_query`, đọc observation. Chỉ khi SUCCESS và người dùng yêu cầu tạo lịch có giờ cụ thể mới gọi `schedule_appointment`; NOT_FOUND thì dừng.
 4. **Công cụ:** `academic_query` tra hai hồ sơ DEMO theo mã, trả SUCCESS/NOT_FOUND; `schedule_appointment` tạo bản nháp lịch trong bộ nhớ, kiểm tra đã tra cứu, đúng cố vấn và đúng định dạng giờ. Cả hai không kết nối VinUni thật.
-5. **Demo trực tiếp:** Chạy `python src/web_ui.py`, mở http://127.0.0.1:8765. Bấm “Câu đơn giản” để thấy 0 tool; bấm “Tra cứu” để thấy một tool; dùng câu mặc định để thấy chuỗi tra cứu → tạo lịch → final; bấm “Ca biên” để thấy NOT_FOUND và không có lịch. Chỉ vào waterfall trace ở từng bước.
+5. **Demo trực tiếp:** Chạy `python src/web_ui.py`, mở http://127.0.0.1:8765. Trong giao diện lấy bố cục từ FiProve, bấm **Bộ 5 tình huống** bên trái: TC01 cho 0 tool, TC03 cho một tool, TC04 cho chuỗi tra cứu → tạo lịch → final, TC05 cho NOT_FOUND và không có lịch. Chọn câu rồi bấm nút gửi ở ô hỏi phía dưới; bên phải mở **Xem tham số và kết quả** của từng bước trong waterfall trace.
 
 Nếu API chậm lúc trình bày, mở sẵn [`ui_live.png`](ui_live.png) và
 [`trace_waterfall.json`](trace_waterfall.json). Lượt nghiệm thu đã chạy API thật 5/5;

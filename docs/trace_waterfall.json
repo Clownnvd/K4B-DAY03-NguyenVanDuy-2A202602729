@@ -5,14 +5,14 @@
     "step": 1,
     "action_type": "FINAL_ANSWER",
     "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
-    "output": "Bản demo này là hệ thống hỗ trợ học vụ bằng dữ liệu giả lập của VinUni. Nó giúp trả lời các câu hỏi đơn giản về học vụ, tra cứu thông tin sinh viên như GPA, cố vấn học tập dựa trên mã sinh viên, và tạo bản nháp lịch hẹn với cố vấn học tập theo yêu cầu. Tuy nhiên, dữ liệu chỉ là giả lập, không đại diện cho VinUni thật.",
-    "llm_latency_ms": 2609.81,
-    "latency_ms": 2609.81,
-    "response_id": "chatcmpl-ENXB9XXAgzjfbmMy58bopkLv5xZSQ",
+    "output": "Đây là bản demo học vụ dùng dữ liệu giả lập, không đại diện cho VinUni. Nó hỗ trợ giải đáp các câu hỏi đơn giản về sinh viên, tra cứu thông tin học vụ như GPA, cố vấn, và tạo bản nháp lịch hẹn với cố vấn dựa trên dữ liệu giả lập.",
+    "llm_latency_ms": 1534.37,
+    "latency_ms": 1534.37,
+    "response_id": "chatcmpl-ENZC9kzeDFSkQw6GZHdPH9xBLKoXT",
     "usage": {
-      "completion_tokens": 89,
+      "completion_tokens": 66,
       "prompt_tokens": 648,
-      "total_tokens": 737,
+      "total_tokens": 714,
       "completion_tokens_details": {
         "accepted_prediction_tokens": 0,
         "audio_tokens": 0,
@@ -21,7 +21,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -32,14 +31,14 @@
     "step": 1,
     "action_type": "FINAL_ANSWER",
     "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
-    "output": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu hồ sơ học vụ DEMO cho bạn.",
-    "llm_latency_ms": 1184.35,
-    "latency_ms": 1184.35,
-    "response_id": "chatcmpl-ENXBCDvAJv2aeB8Ce1OoR9gMR0ZSt",
+    "output": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để mình tra cứu hồ sơ học vụ DEMO nhé.",
+    "llm_latency_ms": 1334.07,
+    "latency_ms": 1334.07,
+    "response_id": "chatcmpl-ENZCBWsrUrl7J3rp9t1FACn9Mb5dO",
     "usage": {
-      "completion_tokens": 26,
+      "completion_tokens": 25,
       "prompt_tokens": 655,
-      "total_tokens": 681,
+      "total_tokens": 680,
       "completion_tokens_details": {
         "accepted_prediction_tokens": 0,
         "audio_tokens": 0,
@@ -48,7 +47,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -77,10 +75,10 @@
       }
     },
     "jsonrpc": "2.0",
-    "llm_latency_ms": 936.05,
-    "tool_latency_ms": 0.04,
-    "latency_ms": 936.09,
-    "response_id": "chatcmpl-ENXBFlDD7jyYYGGNkNIwCKjzMmqPe",
+    "llm_latency_ms": 1389.87,
+    "tool_latency_ms": 0.03,
+    "latency_ms": 1389.9,
+    "response_id": "chatcmpl-ENZCDZcIGjJtAMiIXhdu57fFoGLjn",
     "usage": {
       "completion_tokens": 19,
       "prompt_tokens": 658,
@@ -93,7 +91,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -105,9 +102,9 @@
     "action_type": "FINAL_ANSWER",
     "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
     "output": "Sinh viên SV2026001 có GPA là 3.85 và cố vấn là PGS.TS Nguyễn Văn A.",
-    "llm_latency_ms": 906.68,
-    "latency_ms": 906.68,
-    "response_id": "chatcmpl-ENXBGizguPPJ6rCnS0BiV4bAfvToV",
+    "llm_latency_ms": 914.51,
+    "latency_ms": 914.51,
+    "response_id": "chatcmpl-ENZCEdlGHnylLEFUp5vXjdwJ6BpVV",
     "usage": {
       "completion_tokens": 26,
       "prompt_tokens": 796,
@@ -120,7 +117,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -149,10 +145,10 @@
       }
     },
     "jsonrpc": "2.0",
-    "llm_latency_ms": 964.72,
-    "tool_latency_ms": 0.03,
-    "latency_ms": 964.75,
-    "response_id": "chatcmpl-ENXBIIreQzbLJYgXbscoOfGzT5GPV",
+    "llm_latency_ms": 900.39,
+    "tool_latency_ms": 0.09,
+    "latency_ms": 900.48,
+    "response_id": "chatcmpl-ENZCHd0rO7EQVy4gGXJiU7sBXkZUE",
     "usage": {
       "completion_tokens": 19,
       "prompt_tokens": 676,
@@ -165,7 +161,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -193,10 +188,10 @@
       "message": "Đã tạo bản nháp lịch tư vấn DEMO; chưa gửi tới VinUni."
     },
     "jsonrpc": "2.0",
-    "llm_latency_ms": 1116.46,
-    "tool_latency_ms": 5.98,
-    "latency_ms": 1122.44,
-    "response_id": "chatcmpl-ENXBJHslkUZC8Q9Stywmh440t3wLt",
+    "llm_latency_ms": 1398.68,
+    "tool_latency_ms": 4.55,
+    "latency_ms": 1403.23,
+    "response_id": "chatcmpl-ENZCIoGtSkAnwdK58W1SXjhOb8fVD",
     "usage": {
       "completion_tokens": 44,
       "prompt_tokens": 815,
@@ -209,7 +204,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -221,9 +215,9 @@
     "action_type": "FINAL_ANSWER",
     "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
     "output": "Đã tạo bản nháp lịch tư vấn DEMO cho SV2026002 với cố vấn TS. Lê Thị B lúc 14:00 15/09/2026; lịch này chưa gửi tới VinUni.",
-    "llm_latency_ms": 1178.05,
-    "latency_ms": 1178.05,
-    "response_id": "chatcmpl-ENXBKIL5kJTYet2ktgWlTknGKxhJX",
+    "llm_latency_ms": 1142.4,
+    "latency_ms": 1142.4,
+    "response_id": "chatcmpl-ENZCJDCbEd35g6yFDUkZkBFQpecTw",
     "usage": {
       "completion_tokens": 48,
       "prompt_tokens": 988,
@@ -236,7 +230,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -257,10 +250,10 @@
       "message": "Không tìm thấy dữ liệu sinh viên có mã 'SV9999999'"
     },
     "jsonrpc": "2.0",
-    "llm_latency_ms": 1128.29,
-    "tool_latency_ms": 0.1,
-    "latency_ms": 1128.39,
-    "response_id": "chatcmpl-ENXBM3xUNsHfqA3t3kRCf4avON7r6",
+    "llm_latency_ms": 954.41,
+    "tool_latency_ms": 0.11,
+    "latency_ms": 954.52,
+    "response_id": "chatcmpl-ENZCLgT9P0tQGWrT0DOGkfk0u3D1N",
     "usage": {
       "completion_tokens": 19,
       "prompt_tokens": 674,
@@ -273,7 +266,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }
@@ -284,14 +276,14 @@
     "step": 2,
     "action_type": "FINAL_ANSWER",
     "thought": "Model dừng gọi tool và đưa ra câu trả lời cuối.",
-    "output": "Không tìm thấy hồ sơ sinh viên mã SV9999999, nên không thể tạo lịch tư vấn.",
-    "llm_latency_ms": 1591.04,
-    "latency_ms": 1591.04,
-    "response_id": "chatcmpl-ENXBNWgyScIOYlSsKaJhaJ1nUJA2D",
+    "output": "Không tìm thấy hồ sơ sinh viên mã SV9999999, không thể tạo lịch tư vấn.",
+    "llm_latency_ms": 1043.24,
+    "latency_ms": 1043.24,
+    "response_id": "chatcmpl-ENZCMXjxZ3QN0DwOvix4OYaV7CUsu",
     "usage": {
-      "completion_tokens": 22,
+      "completion_tokens": 21,
       "prompt_tokens": 759,
-      "total_tokens": 781,
+      "total_tokens": 780,
       "completion_tokens_details": {
         "accepted_prediction_tokens": 0,
         "audio_tokens": 0,
@@ -300,7 +292,6 @@
       },
       "prompt_tokens_details": {
         "audio_tokens": 0,
-        "cache_write_tokens": null,
         "cached_tokens": 0
       }
     }

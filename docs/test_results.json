@@ -11,16 +11,16 @@
       "question": "Đây là bản demo gì và hỗ trợ những việc nào?",
       "expected_behavior": "Trả lời về chức năng demo, không gọi tool; chatbot baseline đủ dùng.",
       "baseline": {
-        "answer": "Đây là chatbot DEMO học vụ hỗ trợ tra cứu GPA và cố vấn theo mã sinh viên dạng SVxxxxxxx. Bạn có thể nhập mã sinh viên để xem thông tin GPA hoặc cố vấn. Sau khi tra cứu, chatbot có thể giúp tạo bản nháp lịch tư vấn. Tuy nhiên, chatbot không truy cập được dữ liệu cá nhân thật hay đặt lịch chính thức.",
-        "latency_ms": 3162.39,
+        "answer": "Đây là chatbot DEMO học vụ hỗ trợ tra cứu GPA và cố vấn theo mã sinh viên dạng SVxxxxxxx. Bạn có thể nhập mã sinh viên để xem thông tin GPA hoặc tên cố vấn. Sau khi tra cứu, bạn có thể tạo bản nháp lịch tư vấn. Tôi không thể tra cứu bằng họ tên, không truy cập dữ liệu cá nhân thật, và không đặt lịch chính thức được.",
+        "latency_ms": 3191.18,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
       },
       "agent": {
-        "answer": "Bản demo này là hệ thống hỗ trợ học vụ bằng dữ liệu giả lập của VinUni. Nó giúp trả lời các câu hỏi đơn giản về học vụ, tra cứu thông tin sinh viên như GPA, cố vấn học tập dựa trên mã sinh viên, và tạo bản nháp lịch hẹn với cố vấn học tập theo yêu cầu. Tuy nhiên, dữ liệu chỉ là giả lập, không đại diện cho VinUni thật.",
+        "answer": "Đây là bản demo học vụ dùng dữ liệu giả lập, không đại diện cho VinUni. Nó hỗ trợ giải đáp các câu hỏi đơn giản về sinh viên, tra cứu thông tin học vụ như GPA, cố vấn, và tạo bản nháp lịch hẹn với cố vấn dựa trên dữ liệu giả lập.",
         "success": true,
-        "latency_ms": 2609.84,
+        "latency_ms": 1534.39,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -39,16 +39,16 @@
       "question": "Để bạn tra cứu hồ sơ học vụ DEMO, tôi cần cung cấp thông tin gì?",
       "expected_behavior": "Giải thích cần mã sinh viên DEMO; không tra cứu khi chưa có mã.",
       "baseline": {
-        "answer": "Bạn cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu GPA hoặc cố vấn học tập. Tôi không hỗ trợ tra cứu bằng họ tên hay thông tin khác.",
-        "latency_ms": 1122.96,
+        "answer": "Bạn cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu GPA hoặc cố vấn học tập. Tôi chỉ hỗ trợ tra cứu theo mã sinh viên, không tra cứu bằng họ tên. Sau khi tra cứu, bạn có thể yêu cầu tạo bản nháp lịch tư vấn.",
+        "latency_ms": 1035.61,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
       },
       "agent": {
-        "answer": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để tôi tra cứu hồ sơ học vụ DEMO cho bạn.",
+        "answer": "Bạn chỉ cần cung cấp mã sinh viên dạng SVxxxxxxx để mình tra cứu hồ sơ học vụ DEMO nhé.",
         "success": true,
-        "latency_ms": 1184.37,
+        "latency_ms": 1334.1,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -68,7 +68,7 @@
       "expected_behavior": "Gọi academic_query, dùng đúng observation; baseline không có dữ liệu.",
       "baseline": {
         "answer": "Bạn vui lòng cung cấp mã sinh viên đúng định dạng SVxxxxxxx để tra cứu GPA và cố vấn. Tôi chỉ hỗ trợ tra cứu theo mã sinh viên, không tra cứu theo tên.",
-        "latency_ms": 1105.74,
+        "latency_ms": 880.39,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -76,7 +76,7 @@
       "agent": {
         "answer": "Sinh viên SV2026001 có GPA là 3.85 và cố vấn là PGS.TS Nguyễn Văn A.",
         "success": true,
-        "latency_ms": 1842.84,
+        "latency_ms": 2304.48,
         "tool_calls": 1,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -103,8 +103,8 @@
       "question": "Trong dữ liệu DEMO, hãy tra cứu SV2026002 rồi tạo bản nháp lịch tư vấn với đúng cố vấn của bạn ấy lúc 14:00 15/09/2026.",
       "expected_behavior": "Tra cứu trước, lấy cố vấn từ observation, sau đó tạo lịch DEMO; không báo là lịch thật.",
       "baseline": {
-        "answer": "Bạn vui lòng cung cấp mã sinh viên đúng định dạng SVxxxxxxx để tra cứu GPA và cố vấn. Sau khi tra cứu, tôi có thể giúp tạo bản nháp lịch tư vấn với thời gian bạn muốn. Tuy nhiên, tôi không thể xác minh hay đặt lịch thực tế.",
-        "latency_ms": 1385.08,
+        "answer": "Bạn vui lòng cung cấp mã sinh viên đúng định dạng SVxxxxxxx để tra cứu GPA và cố vấn. Sau khi tra cứu, tôi sẽ giúp tạo bản nháp lịch tư vấn. Tuy nhiên, tôi không thể xác minh hay đặt lịch thực tế.",
+        "latency_ms": 1413.21,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -112,7 +112,7 @@
       "agent": {
         "answer": "Đã tạo bản nháp lịch tư vấn DEMO cho SV2026002 với cố vấn TS. Lê Thị B lúc 14:00 15/09/2026; lịch này chưa gửi tới VinUni.",
         "success": true,
-        "latency_ms": 3265.5,
+        "latency_ms": 3446.35,
         "tool_calls": 2,
         "model": "gpt-4.1-mini",
         "live_api": true
@@ -143,16 +143,16 @@
       "question": "Trong dữ liệu DEMO, hãy tra cứu SV9999999 và chỉ tạo bản nháp lịch tư vấn lúc 15:00 15/09/2026 nếu có hồ sơ.",
       "expected_behavior": "Tra cứu NOT_FOUND rồi dừng, không tạo lịch hay bịa cố vấn.",
       "baseline": {
-        "answer": "Mã sinh viên SV9999999 không có trong dữ liệu DEMO của tôi, nên tôi không thể tra cứu GPA hay cố vấn. Vì vậy, tôi cũng không thể tạo bản nháp lịch tư vấn cho mã này. Bạn vui lòng cung cấp mã sinh viên hợp lệ theo định dạng SVxxxxxxx để tôi hỗ trợ.",
-        "latency_ms": 1273.91,
+        "answer": "Mã sinh viên SV9999999 không có trong dữ liệu DEMO của tôi, nên tôi không thể tra cứu GPA hay cố vấn. Vì vậy, tôi cũng không thể tạo bản nháp lịch tư vấn cho mã này. Bạn vui lòng cung cấp mã sinh viên hợp lệ theo định dạng SVxxxxxxx để tra cứu.",
+        "latency_ms": 1202.3,
         "tool_calls": 0,
         "model": "gpt-4.1-mini",
         "live_api": true
       },
       "agent": {
-        "answer": "Không tìm thấy hồ sơ sinh viên mã SV9999999, nên không thể tạo lịch tư vấn.",
+        "answer": "Không tìm thấy hồ sơ sinh viên mã SV9999999, không thể tạo lịch tư vấn.",
         "success": true,
-        "latency_ms": 2719.73,
+        "latency_ms": 1997.9,
         "tool_calls": 1,
         "model": "gpt-4.1-mini",
         "live_api": true

@@ -1,12 +1,10 @@
 # Lab 3 — Chatbot baseline vs ReAct Agent
 
 **Học viên:** NGUYỄN VĂN DUY · **MSSV:** 2A202602729<br>
-**Lớp:** K4A · **Đề tài:** Trợ lý học vụ DEMO tra cứu sinh viên và tạo bản nháp lịch tư vấn<br>
-**Nguồn bài lab:** [Starter repo K4A MCP Enhanced](https://github.com/VinUni-AI20k/K4A-Day03-Lab-Chatbot-vs-ReAct-Agent-MCP)
+**Lớp:** K4B (ca chiều) · **Đề tài:** Trợ lý học vụ DEMO tra cứu sinh viên và tạo bản nháp lịch tư vấn<br>
+**Nguồn bài lab:** [Starter repo K4B MCP Enhanced](https://github.com/VinUni-AI20k/K4B-Day03-Lab-Chatbot-vs-ReAct-Agent-MCP)
 
-**Trạng thái nộp:** Đã nộp [link repo này trên VLearn](https://vlearn.dev/labs) lúc
-12:49:11 ngày 13/09/2026. Form ghi đánh giá 5/5 sao do học viên chọn; đây chưa phải
-điểm chấm của giảng viên.
+**Trạng thái nộp:** Đang chuyển link VLearn từ repo K4A sang repo K4B theo ca chiều.
 
 Repo này giữ cùng một use case cho hai hệ thống. Chatbot baseline trả lời bằng một lần
 gọi LLM, không có công cụ. ReAct agent được gọi native functions qua adapter MCP-style:
@@ -71,7 +69,11 @@ Lệnh không có `--mock` gọi OpenAI thật và ghi:
 ```
 
 Mở **http://127.0.0.1:8765** trên chính máy chạy lệnh. Giao diện hiển thị hai câu
-trả lời cạnh nhau và waterfall trace; có sẵn nút cho câu đơn giản, tra cứu và ca biên.
+trả lời cạnh nhau và waterfall trace. Thiết kế lấy ngôn ngữ giao diện của
+[FiProve](https://fiprove.vercel.app/) do chính chủ sở hữu xây dựng: nền sáng, thanh
+điều hướng trái, vùng hỏi đáp giữa, bảng bằng chứng phải và ô hỏi ở cuối. Nội dung,
+công cụ và dữ liệu vẫn là bài Lab 3 học vụ; không mang chức năng tài chính sang.
+Mục **Bộ 5 tình huống** cho chọn đủ hai ca chatbot, hai ca agent và một ca biên.
 Đây là UI địa phương để trình chiếu, không phải bản triển khai công khai.
 Ảnh chụp một lượt UI gọi API thật và đi qua hai tools: [docs/ui_live.png](docs/ui_live.png).
 
@@ -100,7 +102,7 @@ Lượt cuối với **OpenAI `gpt-4.1-mini`**: **5/5 PASS**, **4 tool calls** �
 | TC04 | agent có giá trị | `academic_query → schedule_appointment → final`; đúng cố vấn từ observation. |
 | TC05 | ca biên | `academic_query → NOT_FOUND`; không tạo lịch. |
 
-Median độ trễ của 5 câu: baseline **1273.91 ms**, agent **2609.84 ms**. Mẫu nhỏ và
+Median độ trễ của 5 câu trên bản K4B: baseline **1202.30 ms**, agent **1997.90 ms**. Mẫu nhỏ và
 TC01 baseline chậm hơn agent, nên chỉ dùng thời gian như số đo tham khảo, không kết luận
 về hiệu năng tổng quát. Baseline không thể xác minh dữ liệu hoặc tạo lịch; agent có thể
 làm việc đó **trong bộ dữ liệu demo**. Chi tiết từng câu và đầu ra thật ở báo cáo.

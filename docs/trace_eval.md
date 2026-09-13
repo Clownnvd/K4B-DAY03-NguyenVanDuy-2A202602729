@@ -3,7 +3,7 @@
 > **Họ tên:** NGUYỄN VĂN DUY<br>
 > **MSSV:** 2A202602729<br>
 > **Đề tài:** Trợ lý học vụ DEMO: tra cứu sinh viên rồi tạo bản nháp lịch với đúng cố vấn<br>
-> **Hình thức:** Bài cá nhân, fork repo K4A của lớp sáng<br>
+> **Hình thức:** Bài cá nhân, fork repo K4B của ca chiều<br>
 > **LLM nghiệm thu:** OpenAI `gpt-4.1-mini` qua API thật; key chỉ nằm trong biến môi trường Windows.
 
 ## 1. Agentic Fit Scoring Matrix
@@ -37,14 +37,14 @@ Chạy `python src/app.py --all` trên Python 3.11. Dữ liệu dưới đây l�
 
 | Ca | Mục đích | Chatbot baseline | ReAct agent | Tool/status thực tế | Kết quả |
 | --- | --- | ---: | ---: | --- | --- |
-| TC01 | Câu hỏi về chức năng demo, không cần tool | 3162.39 ms | 2609.84 ms | không gọi tool | PASS |
-| TC02 | Cần cung cấp gì để tra cứu? | 1122.96 ms | 1184.37 ms | không gọi tool | PASS |
-| TC03 | Hỏi GPA và cố vấn của SV2026001 | 1105.74 ms | 1842.84 ms | `academic_query → SUCCESS` | PASS |
-| TC04 | Tra cứu SV2026002 rồi tạo lịch với đúng cố vấn | 1385.08 ms | 3265.50 ms | `academic_query → SUCCESS; schedule_appointment → SUCCESS` | PASS |
-| TC05 | Mã SV9999999 không tồn tại | 1273.91 ms | 2719.73 ms | `academic_query → NOT_FOUND`; không tạo lịch | PASS |
+| TC01 | Câu hỏi về chức năng demo, không cần tool | 3191.18 ms | 1534.39 ms | không gọi tool | PASS |
+| TC02 | Cần cung cấp gì để tra cứu? | 1035.61 ms | 1334.10 ms | không gọi tool | PASS |
+| TC03 | Hỏi GPA và cố vấn của SV2026001 | 880.39 ms | 2304.48 ms | `academic_query → SUCCESS` | PASS |
+| TC04 | Tra cứu SV2026002 rồi tạo lịch với đúng cố vấn | 1413.21 ms | 3446.35 ms | `academic_query → SUCCESS; schedule_appointment → SUCCESS` | PASS |
+| TC05 | Mã SV9999999 không tồn tại | 1202.30 ms | 1997.90 ms | `academic_query → NOT_FOUND`; không tạo lịch | PASS |
 
 **Kết quả:** 5/5 ca đạt kỳ vọng; **4 tool calls** đúng trong 5 ca; median độ trễ
-baseline **1273.91 ms**, agent **2609.84 ms**. Đây chỉ là 5 lần gọi trên một máy,
+baseline **1202.30 ms**, agent **1997.90 ms**. Đây chỉ là 5 lần gọi trên một máy,
 không đủ để kết luận hiệu năng tổng quát. TC01 baseline chậm hơn agent trong lượt này;
 không tô vẽ rằng chatbot luôn nhanh hơn. Giá trị tăng thêm của agent thể hiện ở TC03–TC05:
 baseline không thể xác minh hồ sơ hay tạo lịch, còn agent dùng observation và dừng đúng ca lỗi.
@@ -59,7 +59,7 @@ baseline không thể xác minh hồ sơ hay tạo lịch, còn agent dùng obse
     "tool_name": "academic_query",
     "arguments": {"student_id": "SV2026002"},
     "observation": {"status": "SUCCESS", "data": {"advisor": "TS. Lê Thị B", "gpa": 3.6}},
-    "latency_ms": 964.75
+    "latency_ms": 900.48
   },
   {
     "step": 2,
@@ -67,13 +67,13 @@ baseline không thể xác minh hồ sơ hay tạo lịch, còn agent dùng obse
     "tool_name": "schedule_appointment",
     "arguments": {"student_id": "SV2026002", "datetime_str": "14:00 15/09/2026", "advisor_name": "TS. Lê Thị B"},
     "observation": {"status": "SUCCESS", "simulated": true, "booking_id": "DEMO-99F49B87E9"},
-    "latency_ms": 1122.44
+    "latency_ms": 1403.23
   },
   {
     "step": 3,
     "action_type": "FINAL_ANSWER",
     "output": "Đã tạo bản nháp lịch tư vấn DEMO cho SV2026002 với cố vấn TS. Lê Thị B lúc 14:00 15/09/2026; lịch này chưa gửi tới VinUni.",
-    "latency_ms": 1178.05
+    "latency_ms": 1142.4
   }
 ]
 ```
@@ -88,10 +88,9 @@ TC05 cho thấy `NOT_FOUND` rồi `FINAL_ANSWER`, không có `schedule_appointme
 - [x] Chạy offline Mock 5/5 để kiểm tra luồng code; file Mock được đặt riêng, không dùng làm bằng chứng nghiệm thu.
 - [x] Chạy 5/5 ca với OpenAI API thật, model `gpt-4.1-mini`; trace ghi `response_id`, latency và observation từng bước.
 - [x] Chạy `python src/app.py --interactive` với API thật: tra cứu `SV2026001`, nhận GPA 3.85 và cố vấn từ observation.
-- [x] Có UI địa phương tại `python src/web_ui.py` để demo hai câu trả lời và waterfall trace cạnh nhau.
+- [x] Có UI địa phương tại `python src/web_ui.py`, thiết kế lại theo bố cục FiProve: điều hướng trái, đối chiếu giữa, bằng chứng/trace phải; có màn hình hẹp.
 - [x] UI đã được kiểm tra bằng một lượt gọi API thật; [ảnh minh chứng](ui_live.png) hiển thị hai tool calls và câu trả lời cuối.
-- [x] Đã commit và push mã nguồn, 5 test cases, trace, báo cáo, sơ đồ và UI lên [repo GitHub cá nhân](https://github.com/Clownnvd/K4A-DAY03-NguyenVanDuy-2A202602729).
-- [x] Đã nộp link repo trên VLearn lúc **12:49:11 ngày 13/09/2026**. Trang Lab hiển thị **3/3 bài đã nộp**; mức **5/5 sao** là đánh giá trên form do học viên chọn, chưa phải điểm chấm của giảng viên.
+- [ ] Push bản K4B lên [repo GitHub cá nhân](https://github.com/Clownnvd/K4B-DAY03-NguyenVanDuy-2A202602729) và cập nhật link trên VLearn sau nghiệm thu.
 
 **Kết luận dựa trên kết quả:** Với câu hỏi chức năng đơn giản, chatbot baseline đủ và
 không cần trả thêm chi phí tool loop. Với câu hỏi hồ sơ và chuỗi tra cứu → tạo lịch,
